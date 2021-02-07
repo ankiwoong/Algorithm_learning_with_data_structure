@@ -27,3 +27,15 @@ class ChainedHash:
         if isinstance(key, int):
             return key % self.capacity
         return int(hashlib.sha256(str(key).encode()).hexdigest(), 16) % self.capacity
+
+    def search(self, key: Any) -> Any:
+        """키가 key인 원소를 검색하여 값을 반환"""
+        hash = self.hash_value(key)  # 검색하는 키의 해시값
+        p = self.table[hash]  # 노드를 노드
+
+        while p is not None:
+            if p.key == key:
+                return p.value  # 검색 성공
+            p = p.next  # 뒤쪽 노드를 주목
+
+        return None  # 검색 실패

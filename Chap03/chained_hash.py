@@ -53,3 +53,20 @@ class ChainedHash:
         temp = Node(key, value, self.table[hash])
         self.table[hash] = temp  # 노드를 삽입
         return True  # 삽입 성공
+
+    def remove(self, key: Any) -> bool:
+        """키가 key인 원소를 삭제"""
+        hash = self.hash_value(key)  # 삭제할 키의 해시값
+        p = self.table[hash]  # 주목하고 있는 노드
+        pp = None  # 바로 앞 주목 노드
+
+        while p is not None:
+            if p.key == key:  # key를 발견하면 아래를 실행
+                if pp is None:
+                    self.table[hash] = p.next
+                else:
+                    pp.next = p.next
+                return True  # key 삭제 성공
+            pp = p
+            p = p.next  # 뒤쪽 노드에 주목
+        return False  # 삭제 실패(key가 존재하지 않음)

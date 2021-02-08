@@ -39,3 +39,17 @@ class ChainedHash:
             p = p.next  # 뒤쪽 노드를 주목
 
         return None  # 검색 실패
+
+    def add(self, key: Any, value: Any) -> bool:
+        """키가 key이고 값이 value인 원소를 삽입"""
+        hash = self.hash_value(key)  # 삽입하는 키의 해시값
+        p = self.table[hash]  # 주목하는 노드
+
+        while p is not None:
+            if p.key == key:
+                return False  # 삽입 실패
+            p = p.next  # 뒤쪽 노드에 주목
+
+        temp = Node(key, value, self.table[hash])
+        self.table[hash] = temp  # 노드를 삽입
+        return True  # 삽입 성공
